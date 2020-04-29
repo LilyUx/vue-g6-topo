@@ -38,6 +38,8 @@ import G6 from '@antv/g6'
 import './index.less'
 import '../animate/zoomNode.js'
 import '../animate/flowEdge.js'
+import '../animate/warningNode.js'
+// import '../animate/warningFlowEdge.js'
 import '../behavior/selfContextmenu.js'
 
 export default {
@@ -64,12 +66,15 @@ export default {
 				// ]
 				nodes: [
 					{ id: 'node0', x: 100, y: 100, label: 'node0', type: 'zoom-animate-node' },
-					{ id: 'node1', x: 200, y: 200, label: 'node1' },
+					{ id: 'node1', x: 200, y: 200, label: 'node1', type: 'warning-node' },
 					{ id: 'node2', x: 150, y: 150, label: 'node2' },
 					{ id: 'node3', x: 150, y: 250, label: 'node3' },
 					{ id: 'node4', x: 150, y: 200, label: 'node4' }],
 				edges: [
-					{ id: 'edge0', source: 'node0', target: 'node1'},
+					{ id: 'edge0', source: 'node0', target: 'node1', style: {
+						stroke: 'red',
+						lineWidth: 1
+					}},
 					{ id: 'edge1', source: 'node1', target: 'node0'},
 					{ id: 'edge2', source: 'node2', target: 'node3'}]
 			}
@@ -148,25 +153,25 @@ export default {
 					type: 'drag-node',
 					enableDelegate: true
 				},{
-					type: 'tooltip',
-					formatText(model) {
-						return `这是${model.label}`;
-					}
+					// type: 'tooltip',
+					// formatText(model) {
+					// 	return `这是${model.label}`;
+					// }
 				}, {
-					type: 'edge-tooltip',
-					formatText(model) {
-						return `这是${model.id}`;
-					}
+					// type: 'edge-tooltip',
+					// formatText(model) {
+					// 	return `这是${model.id}`;
+					// }
 				}, {
 					type: 'brush-select',
 					trigger: 'drag'
 				}, {
 					type: 'self-contextmenu',
-					contextMenu: {
-						canvas: ['添加', '发现'],
-						node: ['修改', '删除'],
-						edge: ['修改', '删除']
-					}
+					// contextMenu: {
+					// 	canvas: ['添加', '发现'],
+					// 	node: ['修改', '删除'],
+					// 	edge: ['修改', '删除']
+					// }
 				}, 'zoom-canvas' ]
 			},
 			plugins: [ minimap, grid ]
@@ -193,16 +198,45 @@ export default {
 		// 	const { item } = evt
 		// 	graph.setItemState(item, 'hover', false)
 		// })
+
+
+		window.handleContextMenu = function (type) {
+			console.log(`你点击了${type}`);
+		} 
 	}
 }
 </script>
 
 <style lang="css">
 .g6-tooltip {
-  padding: 10px 6px;
-  color: #444;
-  background-color: rgba(255,255,255,0.9);
-  border: 1px solid #e2e2e2;
-  border-radius: 4px;
+	padding: 10px 6px;
+	color: #444;
+	background-color: rgba(255,255,255,0.9);
+	border: 1px solid #e2e2e2;
+	border-radius: 4px;
+}
+.g6-contextmenu {
+	color: #444;
+	background-color: rgb(45, 140, 240);
+	border-radius: 4px;
+	width: 100px;
+	font-size: 14px;
+	color: #fff;
+}
+.g6-contextmenu-item {
+	padding: 0 6px;
+	line-height: 30px;
+}
+.g6-contextmenu-item:hover {
+	color: rgb(45, 140, 240);
+	background-color: rgb(198, 229, 255);
+}
+.g6-contextmenu-item:first-child:hover {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+.g6-contextmenu-item:last-child:hover {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
 }
 </style>
