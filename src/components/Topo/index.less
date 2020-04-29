@@ -1,0 +1,62 @@
+.topo-l, #mountNode {
+	width: 100%;
+	height: 100%;
+}
+.topo-l {
+	// 缩略图
+	.minimap {
+		position: fixed;
+		bottom: 60px;
+		right: 80px;
+	}
+	.g6-minimap-viewport {
+		top: 0 !important
+	}
+	
+
+	// 头部信息
+	.topo-graph-info {
+		position: fixed;
+		left: 26px;
+		top: 100px;
+		padding: 16px;
+		// background-color: rgb(241, 243, 244);
+		.topo-graph-info-content {
+			display: flex;
+			flex-direction: column;
+			margin-bottom: 16px;
+			&:last-child {
+				margin-bottom: 0;
+			}
+			.topo-graph-info-badge {
+				width: 120px;
+				padding: 8px 10px;
+				box-sizing: border-box;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-around;
+				background-color: #fff;
+				border: 1px solid #2d8cf0;
+				border-radius: 6px;
+				// margin-bottom: 12px;
+				.topo-graph-info-img {
+					width: 30px;
+				}
+				span {
+					width: 70px;
+					text-align: left;
+					padding-left: 10px;
+				}
+			}
+		}
+	}
+	// 右键菜单
+	// .topo-graph-option {
+	// 	position: fixed;
+	// 	padding: 6px;
+	// 	right: 60px;
+	// 	top: 30px;
+	// 	background-color: red;
+	// }
+}
