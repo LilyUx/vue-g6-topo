@@ -34,13 +34,9 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 import { Button } from 'view-design';
-import G6 from '@antv/g6'
+// import G6 from '@antv/g6'
 import './index.less'
-import '../animate/zoomNode.js'
-import '../animate/flowEdge.js'
-import '../animate/warningNode.js'
-// import '../animate/warningFlowEdge.js'
-import '../behavior/selfContextmenu.js'
+import NTopo from '../../NetworkTopo'
 
 export default {
 	name: 'App',
@@ -52,6 +48,7 @@ export default {
 				{ name: '负载均衡', count: 56, image: require('../../assets/leafOn.png') },
 				{ name: '防火墙', count: 15, image: require('../../assets/leafOn.png') },
 			],
+			network: null,
 			showOptions: false,
 			data: {
 				// 点集
@@ -81,105 +78,113 @@ export default {
 		}
 	},
 	mounted () {
-		const mountNode = document.querySelector('#mountNode')
-		const width = mountNode.offsetWidth
-		const height = mountNode.offsetHeight
-		// 实例化 Minimap 插件
-		const minimap = new G6.Minimap({
-			size: [ 100, 100 ],
-			className: "minimap",
-			type: 'delegate'
-		});
+		this.network = new NTopo('#mountNode')
+		this.network.renderData(this.data)
+		this.network.handleNode('click', item => {
+			console.log(item)
+			console.log('你click了node')
+		})
+		this.network.getNodePosition()
+		// this.network.downloadImage()
+		// const mountNode = document.querySelector('#mountNode')
+		// const width = mountNode.offsetWidth
+		// const height = mountNode.offsetHeight
+		// // 实例化 Minimap 插件
+		// const minimap = new G6.Minimap({
+		// 	size: [ 100, 100 ],
+		// 	className: "minimap",
+		// 	type: 'delegate'
+		// });
 
-		// 实例化 Grid 插件
-		const grid = new G6.Grid();
-		const graph = new G6.Graph({
-			container: mountNode, // 指定图画布的容器 id，与第 9 行的容器对应
-			// 画布宽高
-			width,
-			height,
-			renderer: 'svg',
-			// fitView: true,
-			// fitViewPadding: [ 20, 40, 50, 20 ],
-			animate: true,
-			defaultNode: {
-				type: 'circle',
-				size: 60,
-				icon: {
-					show: true,
-					img: require('../../assets/leafOn.png'),
-					width: 40,
-					height: 40
-				},
-				labelCfg: {
-					position: 'bottom',
-					offset: 5
-				}
-			},
-			defaultEdge: {
-				type: 'flow-edge',
-				style: {
-					stroke: '#888',
-					lineWidth: 1
-				}
-			},
-			nodeStateStyles: {
-				// hover 状态为 true 时的样式
-				hover: {                // hover 状态为 true 时的样式
-					fill: '#d3adf7'
-				},
-				running: {              // running 状态为 true 时的样式
-					stroke: 'steelblue'
-				}
-			},
-			// 边在各状态下的样式
-			edgeStateStyles: {
-				// click 状态为 true 时的样式
-				hover: {
-					fill: 'lightsteelblue',
-					lineWidth: 3
-				}
-			},
-			layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
-				type: 'force',         // 指定为力导向布局
-				preventOverlap: true,  // 防止节点重叠
-				linkDistance: 300,
-				nodeStrength: -30,
-				edgeStrength: 0.1
-				// nodeSize: 30        // 节点大小，用于算法中防止节点重叠时的碰撞检测。由于已经在上一节的元素配置中设置了每个节点的 size 属性，则不需要在此设置 nodeSize。
-			},
-			modes: {
-				default: [{
-					type: 'drag-node',
-					enableDelegate: true
-				},{
-					// type: 'tooltip',
-					// formatText(model) {
-					// 	return `这是${model.label}`;
-					// }
-				}, {
-					// type: 'edge-tooltip',
-					// formatText(model) {
-					// 	return `这是${model.id}`;
-					// }
-				}, {
-					type: 'brush-select',
-					trigger: 'drag'
-				}, {
-					type: 'self-contextmenu',
-					// contextMenu: {
-					// 	canvas: ['添加', '发现'],
-					// 	node: ['修改', '删除'],
-					// 	edge: ['修改', '删除']
-					// }
-				}, 'zoom-canvas' ]
-			},
-			plugins: [ minimap, grid ]
-		});
-		// 读取数据
-		graph.data(this.data);
-		// 渲染图
-		graph.render();
+		// // 实例化 Grid 插件
+		// const grid = new G6.Grid();
+		// const graph = new G6.Graph({
+		// 	container: mountNode, // 指定图画布的容器 id，与第 9 行的容器对应
+		// 	// 画布宽高
+		// 	width,
+		// 	height,
+		// 	renderer: 'svg',
+		// 	// fitView: true,
+		// 	// fitViewPadding: [ 20, 40, 50, 20 ],
+		// 	animate: true,
+		// 	defaultNode: {
+		// 		type: 'circle',
+		// 		size: 60,
+		// 		icon: {
+		// 			show: true,
+		// 			img: require('../../assets/leafOn.png'),
+		// 			width: 40,
+		// 			height: 40
+		// 		},
+		// 		labelCfg: {
+		// 			position: 'bottom',
+		// 			offset: 5
+		// 		}
+		// 	},
+		// 	defaultEdge: {
+		// 		type: 'flow-edge',
+		// 		style: {
+		// 			stroke: '#888',
+		// 			lineWidth: 1
+		// 		}
+		// 	},
+		// 	nodeStateStyles: {
+		// 		// hover 状态为 true 时的样式
+		// 		hover: {                // hover 状态为 true 时的样式
+		// 			fill: '#d3adf7'
+		// 		},
+		// 		running: {              // running 状态为 true 时的样式
+		// 			stroke: 'steelblue'
+		// 		}
+		// 	},
+		// 	// 边在各状态下的样式
+		// 	edgeStateStyles: {
+		// 		// click 状态为 true 时的样式
+		// 		hover: {
+		// 			fill: 'lightsteelblue',
+		// 			lineWidth: 3
+		// 		}
+		// 	},
+		// 	layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
+		// 		type: 'force',         // 指定为力导向布局
+		// 		preventOverlap: true,  // 防止节点重叠
+		// 		linkDistance: 300,
+		// 		nodeStrength: -30,
+		// 		edgeStrength: 0.1
+		// 		// nodeSize: 30        // 节点大小，用于算法中防止节点重叠时的碰撞检测。由于已经在上一节的元素配置中设置了每个节点的 size 属性，则不需要在此设置 nodeSize。
+		// 	},
+		// 	modes: {
+		// 		default: [{
+		// 			type: 'drag-node',
+		// 			// enableDelegate: true
+		// 		},{
+		// 			type: 'tooltip',
+		// 			formatText(model) {
+		// 				return `这是${model.label}`;
+		// 			}
+		// 		}, {
+		// 			type: 'edge-tooltip',
+		// 			formatText(model) {
+		// 				return `这是${model.id}`;
+		// 			}
+		// 		}, {
+		// 			type: 'brush-select',
+		// 			trigger: 'drag'
+		// 		}, {
+		// 			type: 'self-contextmenu',
+		// 			// contextMenu: {
+		// 			// 	canvas: ['添加', '发现'],
+		// 			// 	node: ['修改', '删除'],
+		// 			// 	edge: ['修改', '删除']
+		// 			// }
+		// 		}, 'zoom-canvas' ]
+		// 	},
+		// 	plugins: [ minimap, grid ]
+		// });
+		// // 读取数据
+		// graph.data(this.data);
+		// // 渲染图
+		// graph.render();
 
 		// graph.on('node:mouseenter', evt => {
 		// 	const { item } = evt
@@ -200,6 +205,7 @@ export default {
 		// })
 
 
+
 		window.handleContextMenu = function (type) {
 			console.log(`你点击了${type}`);
 		} 
@@ -217,6 +223,7 @@ export default {
 }
 .g6-contextmenu {
 	color: #444;
+	padding: 10px 0;
 	background-color: rgb(45, 140, 240);
 	border-radius: 4px;
 	width: 100px;
@@ -231,12 +238,12 @@ export default {
 	color: rgb(45, 140, 240);
 	background-color: rgb(198, 229, 255);
 }
-.g6-contextmenu-item:first-child:hover {
+/* .g6-contextmenu-item:first-child:hover {
 	border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
 }
 .g6-contextmenu-item:last-child:hover {
 	border-bottom-left-radius: 4px;
 	border-bottom-right-radius: 4px;
-}
+} */
 </style>
