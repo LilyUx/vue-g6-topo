@@ -123,15 +123,11 @@ class NTopo {
 		this.graph.clearItemStates(item, states)
 	}
 
-	// 节点的操作
-	handleCanvas(name, cb) {
-		if (!name) return
-		const eventHandle = {
-			click: 'canvas:click',
-			dbclick: 'canvas:dblclick',
-			contextmenu: 'canvas:contextmenu',
-		}
-		const targetEvent = eventHandle[name]
+	// 画布、节点、连线的操作 type支持canvas、node、edge
+	handleEvent(type, event, cb) {
+		if (!event || !type) return
+		const targetEvent = `${type}:${event}`
+		console.log(targetEvent)
 		if (targetEvent) {
 			this.graph.on(targetEvent, evt => {
 				const { item } = evt
@@ -143,66 +139,18 @@ class NTopo {
 		}
 	}
 
-	// 节点的操作
-	handleNode(name, cb) {
-		if (!name) return
-		const eventHandle = {
-			click: 'node:click',
-			dbclick: 'node:dblclick',
-			mouseenter: 'node:mouseenter',
-			mouseout: 'node:mouseout',
-			contextmenu: 'node:contextmenu',
-			drag: 'node:drag',
-			dragend: 'node:dragend'
-		}
-		const targetEvent = eventHandle[name]
-		if (targetEvent) {
-			this.graph.on(targetEvent, evt => {
-				const { item } = evt
-				cb(item)
-				// this.graph.setItemState(item, 'hover', false)
-			})
-		} else {
-			console.warn('没有这个事件')
-		}
-	}
-
-	// 连线的操作
-	handleEdge(name, cb) {
-		if (!name) return
-		const eventHandle = {
-			click: 'edge:click',
-			dbclick: 'edge:dblclick',
-			mouseenter: 'edge:mouseenter',
-			mouseout: 'edge:mouseout',
-			contextmenu: 'edge:contextmenu',
-			drag: 'edge:drag',
-			dragend: 'edge:dragend'
-		}
-		const targetEvent = eventHandle[name]
-		if (targetEvent) {
-			this.graph.on(targetEvent, evt => {
-				const { item } = evt
-				cb(item)
-				// this.graph.setItemState(item, 'hover', false)
-			})
-		} else {
-			console.warn('没有这个事件')
-		}
-	}
-
+	// 获取所有节点的位置信息
 	getNodePosition() {
 		const nodes = this.graph.getNodes();
-		console.log(nodes)
 		const allNodesPosition = nodes.map(item => {
             const id = item._cfg.model.id;
             const x = item._cfg.model.x;
             const y = item._cfg.model.y;
             return {id, x, y};
 		});
-		console.log(allNodesPosition)
         return allNodesPosition;
 	}
+
 }
 
 export default NTopo;

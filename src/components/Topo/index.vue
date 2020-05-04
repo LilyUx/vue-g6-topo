@@ -80,11 +80,11 @@ export default {
 	mounted () {
 		this.network = new NTopo('#mountNode')
 		this.network.renderData(this.data)
-		this.network.handleNode('click', item => {
+		this.network.handleEvent('node', 'click', item => {
 			console.log(item)
 			console.log('你click了node')
 		})
-		this.network.getNodePosition()
+		// this.network.getNodePosition()
 		// this.network.downloadImage()
 		// const mountNode = document.querySelector('#mountNode')
 		// const width = mountNode.offsetWidth
