@@ -1,29 +1,12 @@
 # vue-g6-topo
+|  使用g-topo插件实现的网络拓扑DEMO
 
-## Project setup
-```
-npm install
-```
+| 右键菜单事件只实现了addNode事件，可根据需求自行添加其他事件
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 示例
+    ![img](https://github.com/LilyUx/vue-g6-topo/blob/master/doc/topo.gif)
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 运行DEMO
+1. `git clone https://github.com/LilyUx/vue-g6-topo.git`
+2. `npm install`
+3. `npm run serve`

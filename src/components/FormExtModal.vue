@@ -29,7 +29,7 @@
                     v-for="(form, i) of data.form"
                     :key="`form-${i}`"
                     :prop="`${form.key}-${i}`"
-                    v-if="!form.hide" 
+                    v-if="!form.hide"
                     :label="form.label">
                     <!--switch 开关-->
                     <i-switch

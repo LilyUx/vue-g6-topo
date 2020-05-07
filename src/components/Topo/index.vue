@@ -44,9 +44,9 @@
 // eslint-disable-next-line no-unused-vars
 import { Button } from 'view-design';
 import './index.less'
-// import GTopo from 'g-topo';
+import GTopo from 'g-topo';
 import FormExtModal from '../FormExtModal'
-import GTopo from '../../NTopo'
+// import GTopo from '../../NTopo'
 import Vue from 'vue'
 // import {topoData} from '../../../mock'
 

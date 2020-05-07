@@ -10,7 +10,7 @@
   "dependencies": {
     "@antv/g6": "^3.4.8",
     "core-js": "^3.6.4",
-    "g-topo": "^1.0.0",
+    "g-topo": "^1.0.3",
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
     "view-design": "^4.2.0",
@@ -39,8 +39,18 @@
     },
     "rules": {
       "no-unused-vars": 0,
-      "vue/no-parsing-error": [2, {"x-invalid-end-tag": true}],
-      "vue/no-use-v-if-with-v-for": ["error", {"allowUsingIterationVar": false}]
+      "vue/no-parsing-error": [
+        2,
+        {
+          "x-invalid-end-tag": true
+        }
+      ],
+      "vue/no-use-v-if-with-v-for": [
+        2,
+        {
+          "allowUsingIterationVar": false
+        }
+      ]
     }
   },
   "browserslist": [
