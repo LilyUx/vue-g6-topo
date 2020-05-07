@@ -1,7 +1,10 @@
 import G6 from '@antv/g6'
 import './animate/zoomNode.js'
 import './animate/flowEdge.js'
+import './animate/flowWarnEdge.js'
+import './animate/flowInfoEdge.js'
 import './animate/warningNode.js'
+import './animate/playWarnNode'
 import './behavior/selfContextmenu.js'
 
 import {baseNode, baseNodeStateStyles} from './base/baseNode'
@@ -52,7 +55,7 @@ class NTopo {
 			defaultEdge: config.defaultEdge || baseEdge, // {} 默认
 			nodeStateStyles: config.nodeStateStyles || baseNodeStateStyles, // {} 默认
 			edgeStateStyles: config.edgeStateStyles || baseEdgeStateStyles, // {} 默认
-			layout: config.edgeStateStyles || baseLayout, // {} 默认布局
+			layout: config.layout || baseLayout, // {} 默认布局
 			modes: config.modes || baseModes,
 			plugins: config.plugins || [ minimap, grid ] // 数组, []表示没有默认，默认有minimap, grid
 		});
@@ -123,16 +126,17 @@ class NTopo {
 		this.graph.clearItemStates(item, states)
 	}
 
+	refreshPositions() {
+		this.graph.refreshPositions()
+	}
+
 	// 画布、节点、连线的操作 type支持canvas、node、edge
 	handleEvent(type, event, cb) {
 		if (!event || !type) return
 		const targetEvent = `${type}:${event}`
-		console.log(targetEvent)
 		if (targetEvent) {
 			this.graph.on(targetEvent, evt => {
-				const { item } = evt
-				cb(item)
-				// this.graph.setItemState(item, 'hover', false)
+				cb(evt)
 			})
 		} else {
 			console.warn('没有这个事件')
@@ -148,7 +152,7 @@ class NTopo {
             const y = item._cfg.model.y;
             return {id, x, y};
 		});
-        return allNodesPosition;
+		return allNodesPosition;
 	}
 
 }

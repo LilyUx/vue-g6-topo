@@ -1,15 +1,12 @@
 const baseNode = {
 	type: 'circle',
 	size: 60,
-	icon: {
-		show: true,
-		img: require('../../assets/leafOn.png'),
-		width: 40,
-		height: 40
-	},
 	labelCfg: {
 		position: 'bottom',
-		offset: 5
+		offset: 5,
+		style: {
+			fill: '#2c3e50'
+		}
 	}
 }
 

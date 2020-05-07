@@ -15,7 +15,7 @@ const baseModes = {
 	}, {
 		type: 'brush-select',
 		trigger: 'drag'
-	}, 'self-contextmenu', 'zoom-canvas' ]
+	}, 'zoom-canvas' ]
 }
 
 export {

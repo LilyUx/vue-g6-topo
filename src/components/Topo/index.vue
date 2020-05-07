@@ -36,7 +36,9 @@
 import { Button } from 'view-design';
 // import G6 from '@antv/g6'
 import './index.less'
-import NTopo from '../../NetworkTopo'
+// import GTopo from 'g-topo';
+import GTopo from '../../NTopo'
+// import {topoData} from '../../../mock'
 
 export default {
 	name: 'App',
@@ -44,171 +46,216 @@ export default {
 		return {
 			infoBadge: [
 				{ name: '交换机', count: 5, image: require('../../assets/leafOn.png'), type: 'error' },
-				{ name: '服务器', count: 3, image: require('../../assets/leafOn.png') },
-				{ name: '负载均衡', count: 56, image: require('../../assets/leafOn.png') },
+				{ name: '服务器', count: 3, image: require('../../assets/hostOn.png') },
+				{ name: '负载均衡', count: 56, image: require('../../assets/gatewayOn.png') },
 				{ name: '防火墙', count: 15, image: require('../../assets/leafOn.png') },
 			],
 			network: null,
 			showOptions: false,
 			data: {
-				// 点集
-				// nodes: [
-				// 	{id: 'node1',x: 100,y: 200, shape: 'zoom-animate-node'},
-				// 	{id: 'node2',x: 300,y: 200}
-				// ],
-				// // 边集
-				// edges: [
-				// // 表示一条从 node1 节点连接到 node2 节点的边
-				// 	{source: 'node1',target: 'node2'}
-				// ]
 				nodes: [
-					{ id: 'node0', x: 100, y: 100, label: 'node0', type: 'zoom-animate-node' },
-					{ id: 'node1', x: 200, y: 200, label: 'node1', type: 'warning-node' },
-					{ id: 'node2', x: 150, y: 150, label: 'node2' },
-					{ id: 'node3', x: 150, y: 250, label: 'node3' },
-					{ id: 'node4', x: 150, y: 200, label: 'node4' }],
+					{
+						id: 'node0',
+						x: 300,
+						y: 600,
+						label: 'node0',
+						type: 'zoom-animate-node',
+						icon: {
+							show: true,
+							img: require('../../assets/leafOn.png'),
+							width: 40,
+							height: 40
+						},
+						groupId: 'group1'
+					},
+					{
+						id: 'node1',
+						x: 500,
+						y: 200,
+						label: 'node1',
+						type: 'warning-node',
+						icon: {
+							show: true,
+							img: require('../../assets/hostOn.png'),
+							width: 40,
+							height: 40
+						},
+						groupId: 'group1',
+					},
+					{
+						id: 'node2',
+						x: 750,
+						y: 150,
+						label: 'node2',
+						type: 'play-warn-node',
+						icon: {
+							show: true,
+							img: require('../../assets/lbassOn.png'),
+							width: 40,
+							height: 40
+						},
+						groupId: 'group2',
+					},
+					{
+						id: 'node3',
+						x: 250,
+						y: 250,
+						label: 'node3',
+						icon: {
+							show: true,
+							img: require('../../assets/gatewayOn.png'),
+							width: 40,
+							height: 40
+						},
+						groupId: 'group2',
+					},
+					{
+						id: 'node4',
+						x: 850,
+						y: 750,
+						label: 'node4',
+						icon: {
+							show: true,
+							img: require('../../assets/firewallOn.png'),
+							width: 40,
+							height: 40
+						}
+					},
+					{
+						id: 'node5',
+						x: 650,
+						y: 950,
+						label: 'node5',
+						icon: {
+							show: true,
+							img: require('../../assets/spineOn.png'),
+							width: 40,
+							height: 40
+						}
+					},
+					{
+						id: 'node6',
+						x: 250,
+						y: 850,
+						label: 'node6',
+						icon: {
+							show: true,
+							img: require('../../assets/leafOn.png'),
+							width: 40,
+							height: 40
+						}
+					},
+					{
+						id: 'node7',
+						x: 450,
+						y: 350,
+						label: 'node7',
+						icon: {
+							show: true,
+							img: require('../../assets/spineOn.png'),
+							width: 40,
+							height: 40
+						}
+					},
+					{
+						id: 'node8',
+						x: 567,
+						y: 650,
+						label: 'node8',
+						icon: {
+							show: true,
+							img: require('../../assets/firewallOn.png'),
+							width: 40,
+							height: 40
+						}
+					},
+					{
+						id: 'node9',
+						x: 580,
+						y: 400,
+						label: 'node9',
+						icon: {
+							show: true,
+							img: require('../../assets/leafOn.png'),
+							width: 40,
+							height: 40
+						}
+					}
+				],
 				edges: [
-					{ id: 'edge0', source: 'node0', target: 'node1', style: {
-						stroke: 'red',
-						lineWidth: 1
-					}},
-					{ id: 'edge1', source: 'node1', target: 'node0'},
-					{ id: 'edge2', source: 'node2', target: 'node3'}]
+					{ id: 'edge0', source: 'node0', target: 'node1', style: {stroke: 'red', lineWidth: 1}, type: 'flow-warn-edge'},
+					// { id: 'edge1', source: 'node1', target: 'node3'},
+					{ id: 'edge5', source: 'node3', target: 'node1', type: 'flow-info-edge', number: 5},
+					{ id: 'edge6', source: 'node3', target: 'node1'},
+					{ id: 'edge2', source: 'node2', target: 'node4'},
+					{ id: 'edge3', source: 'node1', target: 'node6'},
+					{ id: 'edge4', source: 'node2', target: 'node3'}
+				],
+				groups: [
+					{
+						id: 'group1',
+						title: {
+							text: 'group1'
+						}
+					},
+					{
+						id: 'group2',
+						title: {
+							text: 'group2'
+						}
+					},
+					{
+						id: 'group3',
+						title: {
+							text: 'group3'
+						}
+					},
+				]
 			}
 		}
 	},
 	mounted () {
-		this.network = new NTopo('#mountNode')
-		this.network.renderData(this.data)
-		this.network.handleEvent('node', 'click', item => {
-			console.log(item)
-			console.log('你click了node')
-		})
-		// this.network.getNodePosition()
-		// this.network.downloadImage()
-		// const mountNode = document.querySelector('#mountNode')
-		// const width = mountNode.offsetWidth
-		// const height = mountNode.offsetHeight
-		// // 实例化 Minimap 插件
-		// const minimap = new G6.Minimap({
-		// 	size: [ 100, 100 ],
-		// 	className: "minimap",
-		// 	type: 'delegate'
-		// });
-
-		// // 实例化 Grid 插件
-		// const grid = new G6.Grid();
-		// const graph = new G6.Graph({
-		// 	container: mountNode, // 指定图画布的容器 id，与第 9 行的容器对应
-		// 	// 画布宽高
-		// 	width,
-		// 	height,
-		// 	renderer: 'svg',
-		// 	// fitView: true,
-		// 	// fitViewPadding: [ 20, 40, 50, 20 ],
-		// 	animate: true,
-		// 	defaultNode: {
-		// 		type: 'circle',
-		// 		size: 60,
-		// 		icon: {
-		// 			show: true,
-		// 			img: require('../../assets/leafOn.png'),
-		// 			width: 40,
-		// 			height: 40
-		// 		},
-		// 		labelCfg: {
-		// 			position: 'bottom',
-		// 			offset: 5
-		// 		}
-		// 	},
-		// 	defaultEdge: {
-		// 		type: 'flow-edge',
-		// 		style: {
-		// 			stroke: '#888',
-		// 			lineWidth: 1
-		// 		}
-		// 	},
-		// 	nodeStateStyles: {
-		// 		// hover 状态为 true 时的样式
-		// 		hover: {                // hover 状态为 true 时的样式
-		// 			fill: '#d3adf7'
-		// 		},
-		// 		running: {              // running 状态为 true 时的样式
-		// 			stroke: 'steelblue'
-		// 		}
-		// 	},
-		// 	// 边在各状态下的样式
-		// 	edgeStateStyles: {
-		// 		// click 状态为 true 时的样式
-		// 		hover: {
-		// 			fill: 'lightsteelblue',
-		// 			lineWidth: 3
-		// 		}
-		// 	},
-		// 	layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
-		// 		type: 'force',         // 指定为力导向布局
-		// 		preventOverlap: true,  // 防止节点重叠
-		// 		linkDistance: 300,
-		// 		nodeStrength: -30,
-		// 		edgeStrength: 0.1
-		// 		// nodeSize: 30        // 节点大小，用于算法中防止节点重叠时的碰撞检测。由于已经在上一节的元素配置中设置了每个节点的 size 属性，则不需要在此设置 nodeSize。
-		// 	},
-		// 	modes: {
-		// 		default: [{
-		// 			type: 'drag-node',
-		// 			// enableDelegate: true
-		// 		},{
-		// 			type: 'tooltip',
-		// 			formatText(model) {
-		// 				return `这是${model.label}`;
-		// 			}
-		// 		}, {
-		// 			type: 'edge-tooltip',
-		// 			formatText(model) {
-		// 				return `这是${model.id}`;
-		// 			}
-		// 		}, {
-		// 			type: 'brush-select',
-		// 			trigger: 'drag'
-		// 		}, {
-		// 			type: 'self-contextmenu',
-		// 			// contextMenu: {
-		// 			// 	canvas: ['添加', '发现'],
-		// 			// 	node: ['修改', '删除'],
-		// 			// 	edge: ['修改', '删除']
-		// 			// }
-		// 		}, 'zoom-canvas' ]
-		// 	},
-		// 	plugins: [ minimap, grid ]
-		// });
-		// // 读取数据
-		// graph.data(this.data);
-		// // 渲染图
-		// graph.render();
-
-		// graph.on('node:mouseenter', evt => {
-		// 	const { item } = evt
-		// 	graph.setItemState(item, 'hover', true)
-		// })
-		// graph.on('node:mouseleave', evt => {
-		// 	const { item } = evt
-		// 	graph.setItemState(item, 'hover', false)
-		// })
-
-		// graph.on('edge:mouseenter', evt => {
-		// 	const { item } = evt
-		// 	graph.setItemState(item, 'hover', true)
-		// })
-		// graph.on('edge:mouseleave', evt => {
-		// 	const { item } = evt
-		// 	graph.setItemState(item, 'hover', false)
-		// })
-
-
+		const config = {
+			defaultEdge: {
+				type: 'flow-edge',
+				style: {
+					stroke: '#888',
+					lineWidth: 2
+				}
+			},
+			layout: {}
+		}
+		setTimeout(() => {
+			// this.data = topoData
+			this.network = new GTopo('#mountNode', config)
+			this.network.renderData(this.data)
+			this.network.getNodePosition()
+			// this.network.handleEvent('node', 'click', item => {
+			// 	console.log(item)
+			// })
+			// this.network.handleEvent('edge', 'contextmenu', item => {
+			// 	console.log(item)
+			// })
+			// this.network.handleEvent('canvas', 'contextmenu', item => {
+			// 	console.log(item)
+			// })
+			// this.network.handleEvent('node', 'dragend', evt => {
+			// 	const { _cfg } = evt.item;
+			// 	const { id, model } = _cfg;
+			// 	this.network.refreshPositions();
+			// 	const {x,y} = model;
+			// 	this.data.nodes = this.data.nodes.map(item => {
+			// 		if (id === item.id) {
+			// 			return Object.assign({}, {...item}, {x, y})
+			// 		}
+			// 		return {...item}
+			// 	})
+			// })
+		}, 1000);
 
 		window.handleContextMenu = function (type) {
 			console.log(`你点击了${type}`);
-		} 
+		}
 	}
 }
 </script>
