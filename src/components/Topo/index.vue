@@ -1,6 +1,7 @@
 <template>
 	<div class="topo-l">
 		<div id="mountNode"></div>
+
 		<div class="topo-graph-info">
 			<template v-if="showOptions">
 				<div class="topo-graph-info-content" v-for="(item, index) in infoBadge" :key="index">
@@ -28,22 +29,46 @@
 			</template>
 		</div>
 
+		<FormExtModal
+            ref="formExtModal"
+            v-model="isAddModal"
+            :data="addItem"
+            :width="400"
+            :labelWidth="80"
+            @submit="addDevice"
+        />	
 	</div>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
 import { Button } from 'view-design';
-// import G6 from '@antv/g6'
 import './index.less'
 // import GTopo from 'g-topo';
+import FormExtModal from '../FormExtModal'
 import GTopo from '../../NTopo'
+import Vue from 'vue'
 // import {topoData} from '../../../mock'
 
 export default {
 	name: 'App',
+	components: {
+		FormExtModal
+	},
 	data () {
 		return {
+			isAddModal: false,
+			addItem: {
+				title: 'add-node',
+                form: [
+                    {
+                        key: 'input',
+                        label: '节点名称',
+                        paramKey: 'node',
+                        default: ''
+                    },
+                ]
+			},
 			infoBadge: [
 				{ name: '交换机', count: 5, image: require('../../assets/leafOn.png'), type: 'error' },
 				{ name: '服务器', count: 3, image: require('../../assets/hostOn.png') },
@@ -59,28 +84,26 @@ export default {
 						x: 300,
 						y: 600,
 						label: 'node0',
-						type: 'zoom-animate-node',
 						icon: {
 							show: true,
 							img: require('../../assets/leafOn.png'),
 							width: 40,
 							height: 40
 						},
-						groupId: 'group1'
+						// groupId: 'group1'
 					},
 					{
 						id: 'node1',
 						x: 500,
 						y: 200,
 						label: 'node1',
-						type: 'warning-node',
 						icon: {
 							show: true,
 							img: require('../../assets/hostOn.png'),
 							width: 40,
 							height: 40
 						},
-						groupId: 'group1',
+						// groupId: 'group1',
 					},
 					{
 						id: 'node2',
@@ -88,13 +111,18 @@ export default {
 						y: 150,
 						label: 'node2',
 						type: 'play-warn-node',
+						style: {
+							fill: '#fff',
+							stroke: 'red',
+							lineWidth: 1
+						},
 						icon: {
 							show: true,
 							img: require('../../assets/lbassOn.png'),
 							width: 40,
 							height: 40
 						},
-						groupId: 'group2',
+						// groupId: 'group2',
 					},
 					{
 						id: 'node3',
@@ -107,7 +135,7 @@ export default {
 							width: 40,
 							height: 40
 						},
-						groupId: 'group2',
+						// groupId: 'group2',
 					},
 					{
 						id: 'node4',
@@ -124,7 +152,7 @@ export default {
 					{
 						id: 'node5',
 						x: 650,
-						y: 950,
+						y: 450,
 						label: 'node5',
 						icon: {
 							show: true,
@@ -135,8 +163,8 @@ export default {
 					},
 					{
 						id: 'node6',
-						x: 250,
-						y: 850,
+						x: 650,
+						y: 550,
 						label: 'node6',
 						icon: {
 							show: true,
@@ -184,52 +212,50 @@ export default {
 				],
 				edges: [
 					{ id: 'edge0', source: 'node0', target: 'node1', style: {stroke: 'red', lineWidth: 1}, type: 'flow-warn-edge'},
-					// { id: 'edge1', source: 'node1', target: 'node3'},
-					{ id: 'edge5', source: 'node3', target: 'node1', type: 'flow-info-edge', number: 5},
-					{ id: 'edge6', source: 'node3', target: 'node1'},
+					{ id: 'edge5', source: 'node3', target: 'node1'},
+					{ id: 'edge6', source: 'node3', target: 'node2'},
 					{ id: 'edge2', source: 'node2', target: 'node4'},
 					{ id: 'edge3', source: 'node1', target: 'node6'},
 					{ id: 'edge4', source: 'node2', target: 'node3'}
 				],
-				groups: [
-					{
-						id: 'group1',
-						title: {
-							text: 'group1'
-						}
-					},
-					{
-						id: 'group2',
-						title: {
-							text: 'group2'
-						}
-					},
-					{
-						id: 'group3',
-						title: {
-							text: 'group3'
-						}
-					},
-				]
+				// groups: [
+				// 	{
+				// 		id: 'group1',
+				// 		title: {
+				// 			text: 'group1'
+				// 		}
+				// 	},
+				// 	{
+				// 		id: 'group2',
+				// 		title: {
+				// 			text: 'group2'
+				// 		}
+				// 	},
+				// 	{
+				// 		id: 'group3',
+				// 		title: {
+				// 			text: 'group3'
+				// 		}
+				// 	},
+				// ]
 			}
 		}
 	},
 	mounted () {
+		let that = this
 		const config = {
 			defaultEdge: {
 				type: 'flow-edge',
 				style: {
-					stroke: '#888',
+					stroke: '#48A0FF',
 					lineWidth: 2
 				}
 			},
 			layout: {}
 		}
 		setTimeout(() => {
-			// this.data = topoData
 			this.network = new GTopo('#mountNode', config)
 			this.network.renderData(this.data)
-			this.network.getNodePosition()
 			// this.network.handleEvent('node', 'click', item => {
 			// 	console.log(item)
 			// })
@@ -239,23 +265,48 @@ export default {
 			// this.network.handleEvent('canvas', 'contextmenu', item => {
 			// 	console.log(item)
 			// })
-			// this.network.handleEvent('node', 'dragend', evt => {
-			// 	const { _cfg } = evt.item;
-			// 	const { id, model } = _cfg;
-			// 	this.network.refreshPositions();
-			// 	const {x,y} = model;
-			// 	this.data.nodes = this.data.nodes.map(item => {
-			// 		if (id === item.id) {
-			// 			return Object.assign({}, {...item}, {x, y})
-			// 		}
-			// 		return {...item}
-			// 	})
-			// })
+			this.network.handleEvent('node', 'dragend', evt => {
+				const { _cfg } = evt.item;
+				const { id, model } = _cfg;
+				this.network.refreshPositions();
+				const {x,y} = model;
+				this.data.nodes = this.data.nodes.map(item => {
+					if (id === item.id) {
+						return Object.assign({}, {...item}, {x, y})
+					}
+					return {...item}
+				})
+			})
 		}, 1000);
 
-		window.handleContextMenu = function (type) {
+		window.handleContextMenu = (type) => {
 			console.log(`你点击了${type}`);
+			if (type === 'addNode') {
+				this.isAddModal = true
+			}
 		}
+	},
+	methods: {
+		addDevice ({ params, status }, done) {
+            if (status) {
+				done();
+				const node = {
+					id: params[0].value,
+					x: 1000,
+					y: 200,
+					label: params[0].value,
+					icon: {
+						show: true,
+						img: require('../../assets/leafOn.png'),
+						width: 40,
+						height: 40
+					},
+				};
+				// this.data.nodes.push(node);
+				Vue.set(this.data.nodes, this.data.nodes.length, node);
+				this.network.updateData(this.data)
+            }
+        },
 	}
 }
 </script>

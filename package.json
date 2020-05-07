@@ -38,7 +38,9 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "no-unused-vars":0
+      "no-unused-vars": 0,
+      "vue/no-parsing-error": [2, {"x-invalid-end-tag": true}],
+      "vue/no-use-v-if-with-v-for": ["error", {"allowUsingIterationVar": false}]
     }
   },
   "browserslist": [
