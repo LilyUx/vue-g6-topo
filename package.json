@@ -46,7 +46,7 @@
         }
       ],
       "vue/no-use-v-if-with-v-for": [
-        2,
+        "error",
         {
           "allowUsingIterationVar": false
         }
