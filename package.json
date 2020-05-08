@@ -10,7 +10,7 @@
   "dependencies": {
     "@antv/g6": "^3.4.8",
     "core-js": "^3.6.4",
-    "g-topo": "^1.0.3",
+    "g-topo": "^1.0.4",
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
     "view-design": "^4.2.0",

@@ -212,7 +212,8 @@ export default {
 				],
 				edges: [
 					{ id: 'edge0', source: 'node0', target: 'node1', style: {stroke: 'red', lineWidth: 1}, type: 'flow-warn-edge'},
-					{ id: 'edge5', source: 'node3', target: 'node1'},
+					{ id: 'edge5', source: 'node3', target: 'node1', type: 'quadratic-label-edge'},
+					{ id: 'edge1', source: 'node3', target: 'node1', type: 'quadratic-label-edge', edgeOffset: -20},
 					{ id: 'edge6', source: 'node3', target: 'node2'},
 					{ id: 'edge2', source: 'node2', target: 'node4'},
 					{ id: 'edge3', source: 'node1', target: 'node6'},

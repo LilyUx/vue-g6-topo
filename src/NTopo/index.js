@@ -3,6 +3,7 @@ import './animate/zoomNode.js'
 import './animate/flowEdge.js'
 import './animate/flowWarnEdge.js'
 import './animate/flowInfoEdge.js'
+import './animate/quadraticLabelEdge.js'
 import './animate/warningNode.js'
 import './animate/playWarnNode'
 import './behavior/selfContextmenu.js'
@@ -27,7 +28,7 @@ const minimap = new G6.Minimap({
  */
 const grid = new G6.Grid();
 
-class NTopo {
+class GTopo {
 	//  初始化dom对象
 	constructor(dom, config = {}) {
 		this.container = document.querySelector(dom);
@@ -157,4 +158,4 @@ class NTopo {
 
 }
 
-export default NTopo;
+export default GTopo;
